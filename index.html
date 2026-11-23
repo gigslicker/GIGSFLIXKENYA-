@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GIGSFLIXKENYA.MOVIES</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#000;color:#fff;padding-bottom:100px}
+header{background:#000;padding:15px;text-align:center;border-bottom:2px solid #e50914;position:sticky;top:0;z-index:99}
+.logo{font-size:34px;font-weight:900;cursor:pointer;user-select:none}
+.logo span{color:#e50914}
+.logo small{display:block;font-size:11px;letter-spacing:5px;color:#25D366;margin-top:2px}
+.logo-badge{background:#e50914;color:#fff;font-size:11px;padding:3px 10px;border-radius:20px;display:inline-block;margin-top:8px}
+.search{padding:15px}
+.search input{width:100%;padding:14px;border-radius:25px;border:1px solid #333;background:#111;color:#fff;font-size:15px;outline:none}
+.banner{margin:0 15px;background:linear-gradient(135deg,#e50914,#ff0000,#6a00ff);padding:24px;border-radius:18px;text-align:center}
+.banner a{background:#fff;color:#000;padding:11px 22px;border-radius:25px;text-decoration:none;font-weight:bold;display:inline-block;margin-top:10px}
+h2.sec{padding:20px 15px 10px;font-size:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;padding:0 15px}
+.card{background:#111;border:1px solid #222;border-radius:16px;overflow:hidden;padding-bottom:10px}
+.card img{width:100%;height:185px;object-fit:cover;background:#222}
+.card h3{padding:9px 10px 2px;font-size:15px}
+.card p{padding:0 10px;font-size:12px;color:#aaa}
+.card a{display:block;margin:10px;background:#e50914;color:#fff;text-align:center;padding:10px;border-radius:20px;text-decoration:none;font-weight:bold;font-size:13px}
+.series{margin:0 15px;background:#111;border:1px solid #222;border-radius:16px;padding:16px}
+select{width:100%;padding:12px;border-radius:10px;background:#222;color:#fff;border:none;margin:6px 0}
+.box{margin:15px;background:#111;border:1px solid #222;padding:16px;border-radius:16px}
+.box h2{font-size:19px;margin-bottom:6px}
+.box p{font-size:13px;color:#aaa;margin-bottom:10px}
+.box input,.box textarea{width:100%;padding:12px;margin:6px 0;border-radius:10px;border:none;background:#222;color:#fff}
+.box button{background:#e50914;color:#fff;border:none;padding:13px;width:100%;border-radius:25px;font-weight:bold;font-size:15px;margin-top:6px}
+.green{background:#25D366 !important}
+footer{text-align:center;color:#777;font-size:12px;padding:20px;line-height:1.6}
+.wa{position:fixed;bottom:18px;right:18px;background:#25D366;color:#fff;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;text-decoration:none;z-index:100}
+.hidden{display:none}
+.admin-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.92);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
+.admin-inner{background:#111;border:1px solid #e50914;padding:20px;border-radius:18px;width:100%;max-width:400px}
+.admin-inner input{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:none;background:#222;color:#fff}
+.admin-inner button{width:100%;padding:13px;border:none;border-radius:25px;font-weight:bold;margin-top:8px}
+</style>
+</head>
+<body>
+<header>
+<div class="logo" id="logoTap">GIGS<span>FLIX</span> 🎬<br>KENYA<span>.MOVIES</span></div>
+<small>🇰🇪 WATCH FREE • NO SIGN UP •</small><br>
+<div class="logo-badge">🔥 #1 IN KENYA</div>
+</header>
+<div class="search"><input id="search" placeholder="🔍 Search movies..." onkeyup="searchMovie()"></div>
+<div class="banner"><h2>🔥 Trending Now</h2><p>Money Heist • New Movies Daily • HD</p><a href="#movies">▶ WATCH NOW</a></div>
+<h2 class="sec" id="movies">🔥 Trending Movies</h2>
+<div class="grid" id="movieGrid"></div>
+<h2 class="sec">📺 Series - Money Heist</h2>
+<div class="series"><h3>Money Heist - All Seasons</h3><p style="font-size:13px;color:#aaa">Select Season & Episode</p><select id="season"><option>Season 1</option><option>Season 2</option><option>Season 3</option><option>Season 4</option><option>Season 5</option></select><select id="episode"><option>Episode 1</option><option>Episode 2</option><option>Episode 3</option><option>Episode 4</option><option>Episode 5</option><option>Episode 6</option></select><button onclick="watchSeries()" style="width:100%;background:#e50914;color:#fff;border:none;padding:13px;border-radius:25px;font-weight:bold;margin-top:8px">▶ WATCH EPISODE</button></div>
+
+<!-- ADMIN PANEL - HIDDEN, ONLY YOU SEE AFTER LOGIN -->
+<div class="box hidden" id="adminBox">
+<h2>👑 ADMIN PANEL - Welcome Boss</h2><p>You are logged in. Add movies here.</p>
+<input id="mTitle" placeholder="Movie Name e.g. John Wick 4">
+<input id="mYear" placeholder="Year e.g. 2024">
+<input id="mCat" placeholder="Category e.g. Action">
+<input id="mImg" placeholder="Paste Poster Image Link">
+<button onclick="addMovie()">✅ ADD MOVIE</button>
+<button onclick="logoutAdmin()" style="background:#333">🚪 Log Out / Hide Admin</button>
+<p style="font-size:11px;margin-top:8px">Tip: Google movie → Long press poster → Copy image address → Paste here</p>
+</div>
+
+<div class="box"><h2>🎬 Request A Movie</h2><p>Can't find it? Request it!</p><input id="reqName" placeholder="Movie name you want"><button class="green" onclick="requestMovie()">📩 Send Request on WhatsApp</button></div>
+<div class="box"><h2>🛎️ WHATSAPP CENTRE - Customer Service</h2><p>Need help? Movie not playing? Talk to us, we reply fast!</p><button class="green" onclick="window.open('https://wa.me/254700000000?text=Hi GIGSFLIXKENYA.MOVIES, I need help','_blank')">💬 CHAT WITH SUPPORT</button><button onclick="window.open('https://wa.me/254700000000?text=I want to report a problem','_blank')" style="background:#333">⚠️ Report A Problem</button><p style="text-align:center;margin-top:10px">⏰ Open Daily: 8am - 11pm • Reply in 5 mins</p></div>
+<footer><b style="color:#fff;font-size:15px">GIGSFLIXKENYA.MOVIES</b><br>Made in Kenya 🇰🇪 • © 2026</footer>
+<a class="wa" href="https://wa.me/254700000000?text=Hi GIGSFLIXKENYA.MOVIES">💬</a>
+
+<!-- LOGIN POPUP - HIDDEN -->
+<div id="loginModal" class="admin-modal hidden"><div class="admin-inner"><h2>🔐 Admin Login</h2><p style="font-size:13px;color:#aaa">Only for Owner</p><input id="adminPass" type="password" placeholder="Enter Admin Password"><button onclick="checkPass()" style="background:#e50914;color:#fff">🔓 LOGIN</button><button onclick="closeLogin()" style="background:#333;color:#fff">Cancel</button></div></div>
+
+<script>
+let MY_PASSWORD="gigs1234"; // <-- CHANGE THIS TO YOUR OWN PASSWORD
+let defaultMovies=[
+{title:"Money Heist",year:"2021",cat:"Action",img:"https://image.tmdb.org/t/p/w500/reEMJA1uzscCbkpeRJeTT2bjqUp.jpg"},
+{title:"Spider-Man No Way Home",year:"2021",cat:"Action",img:"https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg"},
+{title:"Shawshank Redemption",year:"1994",cat:"Drama",img:"https://image.tmdb.org/t/p/w500/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg"},
+{title:"Avengers Endgame",year:"2019",cat:"Action",img:"https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg"}
+];
+let saved=JSON.parse(localStorage.getItem('gigsflixMovies')||'[]');
+let allMovies=[...defaultMovies,...saved];
+function render(){
+let grid=document.getElementById('movieGrid');grid.innerHTML='';
+allMovies.forEach((m,i)=>{
+let div=document.createElement('div');div.className='card movie';
+let delBtn=(document.getElementById('adminBox').classList.contains('hidden')?'':(i>=defaultMovies.length?`<button onclick="deleteMovie(${i})" style="width:calc(100% - 20px);margin:0 10px;background:#333;color:#fff;border:none;padding:8px;border-radius:20px">🗑 Delete</button>`:'')); 
+div.innerHTML=`<img src="${m.img}" onerror="this.src='https://via.placeholder.com/300x450/111/fff?text=${encodeURIComponent(m.title)}'"><h3>${m.title}</h3><p>${m.cat} • ${m.year}</p><a href="https://wa.me/254700000000?text=I want ${encodeURIComponent(m.title)}">▶ WATCH</a>${delBtn}`;
+grid.appendChild(div);
+});
+}
+let taps=0;
+document.getElementById('logoTap').addEventListener('click',()=>{taps++;if(taps>=5){document.getElementById('loginModal').classList.remove('hidden');taps=0}setTimeout(()=>taps=0,2000)});
+if(window.location.search.includes('admin')){document.getElementById('loginModal').classList.remove('hidden')}
+function checkPass(){let p=document.getElementById('adminPass').value;if(p===MY_PASSWORD){document.getElementById('loginModal').classList.add('hidden');document.getElementById('adminBox').classList.remove('hidden');render();alert('Welcome Boss 👑');window.scrollTo(0,document.getElementById('adminBox').offsetTop)}else{alert('Wrong password!')}}
+function closeLogin(){document.getElementById('loginModal').classList.add('hidden')}
+function logoutAdmin(){document.getElementById('adminBox').classList.add('hidden');render();alert('Admin hidden again')}
+function addMovie(){let t=document.getElementById('mTitle').value,y=document.getElementById('mYear').value||'2026',c=document.getElementById('mCat').value||'Movie',img=document.getElementById('mImg').value||'https://via.placeholder.com/300x450/e50914/fff?text='+encodeURIComponent(t);if(!t){alert('Enter movie name');return}let nm={title:t,year:y,cat:c,img:img};saved.push(nm);localStorage.setItem('gigsflixMovies',JSON.stringify(saved));allMovies.push(nm);render();alert('✅ '+t+' Added!')}
+function deleteMovie(i){if(confirm('Delete?')){let idx=i-defaultMovies.length;saved.splice(idx,1);localStorage.setItem('gigsflixMovies',JSON.stringify(saved));allMovies.splice(i,1);render();}}
+function searchMovie(){let v=document.getElementById('search').value.toLowerCase();document.querySelectorAll('.movie').forEach(m=>{m.style.display=m.innerText.toLowerCase().includes(v)?'block':'none'})}
+function watchSeries(){let s=document.getElementById('season').value,e=document.getElementById('episode').value;window.open('https://wa.me/254700000000?text=I want Money Heist '+s+' '+e,'_blank')}
+function requestMovie(){let n=document.getElementById('reqName').value;if(!n){alert('Enter movie name');return}window.open('https://wa.me/254700000000?text=I want to request movie: '+encodeURIComponent(n),'_blank')}
+render();
+</script>
+</body>
+  </html>
